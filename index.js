@@ -3,7 +3,7 @@ export default {
 	fetch(request) {
 		const url = new URL(request.url)
 		const ORIGINS = {
-			'https://my-project.ahmadaz.workers.dev' : 'https://localhost'
+			'https://my-project.ahmadaz.workers.dev' : 'https://ahmadabouzahr.ahmadaz.workers.dev/'
 		}
 		const tablelookup = {
 			'1': 'I am Number ONE',
@@ -29,7 +29,7 @@ export default {
 
 			);	
 		}
-		if (url.origin in ORIGINS & index === 2 )
+		else if (url.origin in ORIGINS & index === 2 )
 		{ 
 			return new Response ( (tablelookup[2]),
 			{	headers: {
@@ -39,7 +39,7 @@ export default {
 
 			);	
 		}
-		if (url.origin in ORIGINS & index === 3 )
+		else if (url.origin in ORIGINS & index === 3 )
 		{ 
 			return new Response ( (tablelookup[3]),
 			{	headers: {
