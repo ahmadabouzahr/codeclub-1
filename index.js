@@ -2,18 +2,36 @@ export default {
 
 	 fetch(request, env , context) {
 		let newRequest = new Request("https://http.cat/401" , request);
+		let resp;
 		if (request.cf.botManagement < 30)
 		{
-			const pack = {
-				"bot" : true,
-				"score": request.cf.botManagement.score,
-				"userAgent": request.headers.get("User-Agent") || "Unknown"
-			}
+			//Define JASON result
+			let jsonResponse = JASON.stringify ({
+				result: {
 
-			return new Response(JASON.stringify(pack, null, 2));
-			// return JASON
-		}
-		return fetch (newRequest)
-	}
+					action: "blocked",
+					reason: "Bad Bot Detected",
+					botScore: request.cf.botManagement.score,
+				},
+
+			});
+			// Define Init
+			let init = {
+				status: 403,
+				headers: {
+					"content-type": "application/json"
+				}
+			};
+			// Create a response object that has a JASON indicating the request is being blocked and why
+			resp = new Response(jsonResponse, init);
+			
+		} else {
+			resp =  fetch (new Request ("https://http.cat/401" , {
+					cf: { resolveOverride: "http.cat" },
+				})
+				);
+		} 
+		return resp;
+	},
 			
 }
